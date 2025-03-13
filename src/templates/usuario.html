@@ -1,0 +1,23 @@
+{% extends "./base.html" %}
+{% block title %}Usuario{% endblock %}
+{% block body %}
+<hr>
+<h3>Perfil {{email["email"]}}</h3>
+
+<ul>
+    {% for i in dato %}
+    {% if i["id"] == id  %}
+    <li>
+            <img src="{{i["imagen"]}}" alt="" style="width: 100px; height: 100px;">
+            <span><strong>Nombre:</strong> {{i["nombre"]}}</span>
+            <span><strong>Categoria:</strong> {{i["categoria"]}}</span>
+
+        
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+
+
+
+{% endblock %}

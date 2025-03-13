@@ -1,0 +1,20 @@
+{% extends "./base.html" %}
+{% block title %}Register{% endblock %}
+{% block body %}
+
+
+<h1>Register</h1>
+<form action="/register" method="post">
+    <input type="text" placeholder="email" name="email">
+    <input type="password" placeholder="password" name="password">
+    <select name="imagen" id="">
+        <option value="" disabled selected>Elige avatar</option>
+        <option value="gato">Gato</option>
+        <option value="perro">Perro</option>
+        <option value="tortuga">Tortuga</option>
+    </select>
+    <button type="submit">Login</button>
+</form>
+<p>Ya tienes cuenta? <a href="/login">Login</a></p>
+
+{% endblock %}

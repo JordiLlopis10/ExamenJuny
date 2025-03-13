@@ -1,0 +1,35 @@
+{% extends "./base.html" %}
+{% block title %}Perfil{% endblock %}
+{% block body %}
+<h1>Perfil de {{email}}</h1>
+<hr>
+<h3>Subir una publicacion</h3>
+<form action="/perfil" method="post">
+    <input type="text" placeholder="imagen" name="imagen">
+    <input type="text" placeholder="nombre" name="nombre">
+    <select name="categoria" id="">
+        <option value="" disabled selected>Categoria</option>
+        <option value="animales">Animales</option>
+        <option value="paisaje">Paisaje</option>
+        <option value="otro">otro</option>
+    </select>
+    <button type="submit">Crear publicacion</button>
+</form>
+<hr>
+<h2>Mis publicaciones</h2>
+<ul>
+    {% for i in datos %}
+    {% if i["id"] == id  %}
+    <li>
+            <img src="{{i["imagen"]}}" alt="" style="width: 100px; height: 100px;">
+            <span><strong>Nombre:</strong> {{i["nombre"]}}</span>
+            <span><strong>Categoria:</strong> {{i["categoria"]}}</span>
+            <button><a href="/edit/{{i["_id"]}}">Editar</a></button>
+            <button><a href="/delete/{{i["_id"]}}">Delete</a></button>
+        
+        </li>
+        {% endif %}
+    {% endfor %}
+</ul>
+
+{% endblock %}

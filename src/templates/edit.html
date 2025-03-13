@@ -1,0 +1,20 @@
+{% extends "./base.html" %}
+{% block title %}Perfil{% endblock %}
+{% block body %}
+
+<hr>
+<h3>Editar una publicacion</h3>
+<img src="{{dato["imagen"]}}" alt="" style="width: 100px; height: 100px;">
+<form action="/edit/{{dato["_id"]}}" method="post">
+    <input type="text" placeholder="imagen" name="imagen" value="{{dato["imagen"]}}">
+    <input type="text" placeholder="nombre" name="nombre" value="{{dato["nombre"]}}">
+    <select name="categoria" id="">
+        <option value="{{dato["categoria"]}}" selected>{{dato["categoria"]}}</option>
+        <option value="animales">Animales</option>
+        <option value="paisaje">Paisaje</option>
+        <option value="otro">otro</option>
+    </select>
+    <button type="submit">Guardar edicion</button>
+</form>
+
+{% endblock %}
