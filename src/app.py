@@ -31,11 +31,15 @@ def load_user(id):
 
 @app.route("/")
 def index():
+    if current_user.is_authenticated:
+        return redirect(url_for("inicio"))
     
     return render_template("index.html")
 
 @app.route("/login", methods=["GET","POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("inicio"))
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
@@ -54,25 +58,29 @@ def login():
 
 @app.route("/register", methods=["GET","POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect(url_for("inicio"))
     if request.method == "POST":
         email = request.form["email"]
         password = request.form["password"]
         imagen = request.form["imagen"]
         comprovar_email = db.users.find_one({"email":email})
         if imagen == "perro":
-            imagen = "https://static.wikia.nocookie.net/reinoanimalia/images/e/ed/Golden_retriver.png/revision/latest?cb=20130303080930&path-prefix=es"
+            imagen = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSFUAfyVe3Easiycyh3isP9wDQTYuSmGPsPQvLIJdEYvQ_DsFq5Ez2Nh_QjiS3oZ3B8ZPfK9cZQyIStmQMV1lDPLw"
         elif imagen == "gato":
             imagen = "https://static.nationalgeographic.es/files/styles/image_3200/public/75552.ngsversion.1422285553360.jpg?w=1900&h=1267"
         else:
             imagen = "https://cdn0.bioenciclopedia.com/es/posts/4/8/3/tortuga_marina_384_600.jpg"
-        if not comprovar_email and email and password:
+            
+        if not comprovar_email and email and password and imagen:
+            
             hashed_password = generate_password_hash(password)
             db.users.insert_one({"email":email,"password":hashed_password,"imagen":imagen})
             print("datos añadidos correctamente")
             return redirect(url_for("login"))
         else:
             return "datos incorrectos"
-    
+
     return render_template("register.html")
 
 @app.route("/perfil", methods=["GET","POST"])
@@ -81,20 +89,23 @@ def perfil():
     datos = db.publicaciones.find()
     id = current_user.id
     email = current_user.email
+    imagen = db.users.find_one({"_id":ObjectId(id)})
+    n = 0
     if request.method == "POST":
         imagen = request.form["imagen"]
         nombre = request.form["nombre"]
         categoria = request.form["categoria"]
+        descripcion = request.form["descripcion"]
         id = current_user.id
         comentarios = ""
-        if imagen and categoria and nombre:
-            db.publicaciones.insert_one({"imagen":imagen,"categoria":categoria,"nombre":nombre,"id":id, "comentarios":comentarios})
+        if imagen and categoria and nombre and descripcion:
+            db.publicaciones.insert_one({"imagen":imagen,"categoria":categoria,"nombre":nombre,"id":id, "comentarios":comentarios, "descripcion": descripcion})
             print("publicacion creada con exito")
             return redirect(url_for("perfil"))
         else:
             return "datos invalidos"
     
-    return render_template("perfil.html",datos = datos, id = id, email=email)
+    return render_template("perfil.html",datos = datos, id = id, email = email, n = n, imagen = imagen)
 
 @app.route("/delete/<string:id>", methods=["GET","POST"])
 def delete(id):

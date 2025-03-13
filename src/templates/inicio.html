@@ -10,6 +10,7 @@
         <a href="/usuario/{{i["id"]}}"><img src="{{i["imagen"]}}" alt="" style="width: 100px; height: 100px;"></a>
         <span><strong>Nombre:</strong> {{i["nombre"]}}</span>
         <span><strong>Categoria:</strong> {{i["categoria"]}}</span>
+        <span><strong>descripcion:</strong> {{i["descripcion"]}}</span>
         <button>Like</button>
         <button>Dislike</button>
         {% if current_user.is_authenticated %}

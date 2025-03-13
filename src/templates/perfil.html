@@ -2,11 +2,13 @@
 {% block title %}Perfil{% endblock %}
 {% block body %}
 <h1>Perfil de {{email}}</h1>
+<img src="{{imagen["imagen"]}}" alt="" style="width: 100px; height: 100px;" >
 <hr>
 <h3>Subir una publicacion</h3>
 <form action="/perfil" method="post">
     <input type="text" placeholder="imagen" name="imagen">
     <input type="text" placeholder="nombre" name="nombre">
+    <input type="text" placeholder="descripcion" name="descripcion">
     <select name="categoria" id="">
         <option value="" disabled selected>Categoria</option>
         <option value="animales">Animales</option>
@@ -19,17 +21,22 @@
 <h2>Mis publicaciones</h2>
 <ul>
     {% for i in datos %}
+
+
     {% if i["id"] == id  %}
     <li>
             <img src="{{i["imagen"]}}" alt="" style="width: 100px; height: 100px;">
             <span><strong>Nombre:</strong> {{i["nombre"]}}</span>
             <span><strong>Categoria:</strong> {{i["categoria"]}}</span>
+            <span><strong>Descripcion:</strong> {{i["descripcion"]}}</span>
             <button><a href="/edit/{{i["_id"]}}">Editar</a></button>
             <button><a href="/delete/{{i["_id"]}}">Delete</a></button>
         
         </li>
-        {% endif %}
-    {% endfor %}
-</ul>
 
+        {% endif %}
+        {% endfor %}
+    </ul>
+    
+    
 {% endblock %}
